@@ -1,13 +1,33 @@
 # Eightfold — Canonical Candidate Profile Transformer
 
-Turns messy, conflicting, multi-source candidate data into **one clean, canonical,
-provenance-tagged profile** — with a **runtime config** that reshapes the output without
-touching the engine.
+> Turn messy, conflicting, multi-source candidate data into **one clean, canonical,
+> provenance-tagged profile** — with a **runtime config** that reshapes the output without
+> touching the engine.
 
-> **Governing principle:** *wrong-but-confident is worse than honestly-empty.*
-> When a value can't be trusted, the pipeline **abstains to `null`** — it never invents.
+![Python](https://img.shields.io/badge/python-3.10%2B-blue)
+![Tests](https://img.shields.io/badge/tests-43%20passing-brightgreen)
+![Lint](https://img.shields.io/badge/ruff-clean-brightgreen)
+![Types](https://img.shields.io/badge/mypy-clean-brightgreen)
+![Output](https://img.shields.io/badge/output-deterministic-success)
+
+**Governing principle:** *wrong-but-confident is worse than honestly-empty.* When a value can't
+be trusted, the pipeline **abstains to `null`** — it never invents.
 
 📄 One-page design / "how I think": [`docs/design.md`](docs/design.md)
+
+---
+
+## Table of contents
+
+- [Introduction](#introduction)
+- [Quickstart](#quickstart)
+- [Features](#features)
+- [Architecture](#architecture)
+- [Runtime config (the required twist)](#runtime-config-the-required-twist)
+- [Conflict resolution (survivorship)](#conflict-resolution-survivorship)
+- [Design decisions](#design-decisions)
+- [Scaling to production](#scaling-to-production)
+- [Project layout](#project-layout)
 
 ---
 
@@ -34,27 +54,85 @@ bolted on at the end.
 
 ---
 
+## Quickstart
+
+### 1. Install (Python 3.10+)
+
+```bash
+python3 -m venv .venv && source .venv/bin/activate
+pip install -e ".[dev]"
+```
+
+### 2. Run on the sample inputs — **default** schema
+
+```bash
+eightfold run --inputs samples/inputs --out out_default.json
+```
+
+### 3. Run with a **custom** runtime config (subset + remap + normalize)
+
+```bash
+eightfold run --inputs samples/inputs --config config/example_custom.json --out out_custom.json
+```
+
+The per-source run report prints to **stderr**; the JSON document goes to **stdout** (or `--out`).
+
+> **Useful flags:** `--jsonl` (one candidate per line), `--compact`, `--strict` (non-zero exit if
+> any source failed or candidate errored), `--llm` (optional Claude enrichment).
+
+### Minimal web UI (optional)
+
+```bash
+python web/app.py            # then open http://127.0.0.1:8000
+```
+
+Point it at an inputs folder, paste/edit a config, and view the produced profile JSON.
+Intentionally low-polish — a thin viewer over the same engine the CLI uses.
+
+### Optional: Claude enrichment of free text
+
+Off by default. Enable with `--llm` **and** an `ANTHROPIC_API_KEY` set:
+
+```bash
+export ANTHROPIC_API_KEY=sk-...
+eightfold run --inputs samples/inputs --llm --out out_llm.json
+```
+
+`claude-opus-4-8` (structured JSON output, **cached by input-hash** for reproducibility) only
+*proposes* low-confidence skill/headline claims that can **never overwrite** a structured value.
+Without a key it's a no-op — the run is byte-identical to the deterministic path.
+
+### Run the tests
+
+```bash
+pytest -q              # 43 tests
+ruff check src tests   # lint (clean)
+mypy src               # types (clean)
+```
+
+---
+
 ## Features
 
-- 🧬 **Canonical golden record** — emails, phones, location, links, skills, experience, education,
+- **Canonical golden record** — emails, phones, location, links, skills, experience, education,
   headline, years-of-experience — merged from all sources.
-- 🔎 **Provenance on every field** — each value traces to a `(source, method)` and the raw text it
+- **Provenance on every field** — each value traces to a `(source, method)` and the raw text it
   came from.
-- 📊 **Explainable confidence** — a transparent formula, not a black-box score; any number can be
+- **Explainable confidence** — a transparent formula, not a black-box score; any number can be
   hand-traced to its inputs.
-- 🎛️ **Config-driven output (the "twist")** — select / rename / remap / normalize / redact fields
+- **Config-driven output (the "twist")** — select / rename / remap / normalize / redact fields
   and choose a missing-value policy, all at runtime, **with zero code changes**.
-- 🚫 **Honest-null** — invalid phones, unknown countries, and unparseable dates abstain instead of
+- **Honest-null** — invalid phones, unknown countries, and unparseable dates abstain instead of
   guessing; a fabricated value can never out-rank a real one.
-- 🧩 **Robust ingestion** — a malformed or empty source degrades to a *status*, never a crash; bad
+- **Robust ingestion** — a malformed or empty source degrades to a *status*, never a crash; bad
   rows are isolated into an `errors[]` channel and the batch continues.
-- ⚖️ **Deterministic entity resolution** — union-find over strong keys + a *guarded* fuzzy pass,
+- **Deterministic entity resolution** — union-find over strong keys + a *guarded* fuzzy pass,
   with **blocking** so it stays near-linear (**~10k records in <0.4s** on a laptop).
-- 🔁 **Byte-for-byte determinism** — same inputs → identical output, verified by gold-file tests.
-- 🤖 **Optional, fenced LLM enrichment** — `claude-opus-4-8` can *propose* low-confidence claims
+- **Byte-for-byte determinism** — same inputs → identical output, verified by gold-file tests.
+- **Optional, fenced LLM enrichment** — `claude-opus-4-8` can *propose* low-confidence claims
   from free prose; off by default, cached for reproducibility, and unable to overwrite real data.
-- 🖥️ **CLI + zero-dependency web UI** — scriptable batch tool plus a stdlib `http.server` viewer.
-- ✅ **34 tests**, `ruff` + `mypy` clean, ships `py.typed`.
+- **CLI + zero-dependency web UI** — scriptable batch tool plus a stdlib `http.server` viewer.
+- **43 tests**, `ruff` + `mypy` clean, ships `py.typed`.
 
 ---
 
@@ -121,64 +199,7 @@ flowchart TB
 
 ---
 
-## Running the project
-
-### 1. Install (Python 3.10+)
-
-```bash
-python3 -m venv .venv && source .venv/bin/activate
-pip install -e ".[dev]"
-```
-
-### 2. Run on the sample inputs — **default** schema
-
-```bash
-eightfold run --inputs samples/inputs --out out_default.json
-```
-
-### 3. Run with a **custom** runtime config (subset + remap + normalize)
-
-```bash
-eightfold run --inputs samples/inputs --config config/example_custom.json --out out_custom.json
-```
-
-The per-source run report prints to **stderr**; the JSON document goes to **stdout** (or `--out`).
-
-**Useful flags:** `--jsonl` (one candidate per line), `--compact`, `--strict` (non-zero exit if any
-source failed or candidate errored), `--llm` (optional Claude enrichment).
-
-### Minimal web UI (optional)
-
-```bash
-python web/app.py            # then open http://127.0.0.1:8000
-```
-
-Point it at an inputs folder, paste/edit a config, and view the produced profile JSON.
-Intentionally low-polish — a thin viewer over the same engine the CLI uses.
-
-### Optional: Claude enrichment of free text
-
-Off by default. Enable with `--llm` **and** an `ANTHROPIC_API_KEY` set:
-
-```bash
-export ANTHROPIC_API_KEY=sk-...
-eightfold run --inputs samples/inputs --llm --out out_llm.json
-```
-
-`claude-opus-4-8` (structured JSON output, **cached by input-hash** for reproducibility) only
-*proposes* low-confidence skill/headline claims that can **never overwrite** a structured value.
-Without a key it's a no-op — the run is byte-identical to the deterministic path.
-
-### Tests
-
-```bash
-pytest -q              # 34 tests
-ruff check src tests   # lint (clean)
-```
-
----
-
-## The runtime config (the "required twist")
+## Runtime config (the required twist)
 
 ```json
 {
@@ -206,7 +227,7 @@ ruff check src tests   # lint (clean)
 
 ---
 
-## How conflicts are resolved (survivorship)
+## Conflict resolution (survivorship)
 
 Per-field-**class**, not one global rule:
 
@@ -222,10 +243,11 @@ Per-field-**class**, not one global rule:
 `clamp(source_trust × method_factor × normalize_factor + corroboration_bonus − conflict_penalty, 0, 1)`
 — every number traces to its inputs.
 
-**Entity resolution** is deterministic: union-find over strong keys (email, E.164 phone,
-github/linkedin URL) + a composite name+company key, then a **guarded fuzzy pass** (same
-last-name / portfolio-host block, compatible name, ≥1 corroborating signal) so a GitHub display
-name like *"Jane Q. Doe"* with no email still merges with the *"Jane Doe"* cluster.
+**Entity resolution** is deterministic: union-find over *strong* keys (email, E.164 phone,
+github/linkedin URL), then a **guarded fuzzy pass** (same last-name / portfolio-host block,
+compatible name, ≥1 corroborating signal) so a GitHub display name like *"Jane Q. Doe"* with no
+email still merges with the *"Jane Doe"* cluster — while two people who merely share a common name
+and employer are **never** force-merged.
 
 ### What the sample run demonstrates
 
@@ -239,9 +261,9 @@ The four sample sources describe **Jane Doe** with deliberate conflicts. The pip
 
 ---
 
-## Why these choices — and not the alternatives
+## Design decisions
 
-This section is the "how I think" part. Every choice below was a deliberate trade-off.
+*Why these choices — and not the alternatives.* Every choice below was a deliberate trade-off.
 
 | Decision | What I chose | What I rejected | Why |
 |---|---|---|---|
@@ -259,7 +281,7 @@ This section is the "how I think" part. Every choice below was a deliberate trad
 
 ---
 
-## Scaling it for production
+## Scaling to production
 
 The choices above are deliberately conservative — *correct for a single-batch take-home*. Here is
 the honest migration path to an Eightfold-scale platform (billions of records, continuous ingest),
@@ -323,7 +345,7 @@ honest-null** — over breadth.
 
 ---
 
-## Layout
+## Project layout
 
 ```
 config/        default + example custom configs
