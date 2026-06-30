@@ -1,0 +1,46 @@
+{
+  "candidates": [
+    {
+      "personal": { "first": "Carlos", "last": "Rivera" },
+      "contact": {
+        "emails": ["carlos.rivera@example.com", "crivera@nimbuslabs.io"],
+        "phoneNumbers": ["(619) 555-0199"]
+      },
+      "tech_stack": ["golang", "k8s", "javascript", "PostgreSQL"],
+      "work_history": [
+        { "org": "Nimbus Labs", "role": "Staff Engineer", "from": "March 2021", "to": "present" },
+        { "org": "Orbit Systems", "role": "Senior Engineer", "from": "2019", "to": "2021-02" }
+      ]
+    },
+    {
+      "personal": { "first": "Aisha", "last": "Khan" },
+      "contact": { "emails": ["aisha.khan@example.com"], "phoneNumbers": [] },
+      "loc": { "town": "Atlantis City", "state": null, "nation": "Atlantis" },
+      "tech_stack": ["Python"]
+    },
+    {
+      "personal": { "first": "Diego", "last": "Santos" },
+      "contact": { "emails": ["diego.santos@example.com"], "phoneNumbers": ["+1 305 555 0144"] },
+      "work_history": [
+        { "org": "Helio", "role": "Engineer", "from": "2016-03", "to": "2019-06" },
+        { "org": "Nova", "role": "Lead", "from": "Summer 2019", "to": "present" },
+        { "org": "Pala", "role": "Intern", "from": "circa 2015", "to": "2016-02" },
+        { "org": "Range Co", "role": "Contractor", "from": "2018-2020", "to": "2020-12" }
+      ]
+    },
+    {
+      "personal": { "first": "Mei", "last": "Lin" },
+      "contact": { "emails": ["mei.lin@example.com"], "phoneNumbers": ["+1 503 555 0155"] },
+      "tech_stack": ["golang", "k8s", "javascript", "elasticsearch", "distributed systems"]
+    },
+    {
+      "personal": { "first": "Sofia", "last": "Rossi" },
+      "contact": { "emails": ["sofia.rossi@example.com"], "phoneNumbers": ["+1 702 555 0166"] },
+      "work_history": [
+        { "org": "Apex", "role": "Engineer", "from": "2015-01", "to": "2018-01" },
+        { "org": "Bolt", "role": "Advisor", "from": "2016-01", "to": "2017-01" },
+        { "org": "Cobalt", "role": "Staff", "from": "2018-01", "to": "2020-01" }
+      ]
+    }
+  ]
+}

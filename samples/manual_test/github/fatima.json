@@ -1,0 +1,12 @@
+{
+  "login": "fatimanoor",
+  "name": "Fatima Noor",
+  "html_url": "https://github.com/fatimanoor",
+  "blog": "https://fatima.codes",
+  "email": null,
+  "bio": "ML + backend",
+  "company": "@quantia",
+  "location": "Toronto, Canada",
+  "languages": { "Python": 70000, "Rust": 11000 },
+  "top_repos": ["fatima-ml", "codes-blog"]
+}

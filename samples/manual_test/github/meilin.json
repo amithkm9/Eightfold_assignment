@@ -1,0 +1,12 @@
+{
+  "login": "meilin",
+  "name": "Mei Lin",
+  "html_url": "https://github.com/meilin",
+  "blog": "",
+  "email": null,
+  "bio": "Distributed systems engineer",
+  "company": "@dataworks",
+  "location": "Seattle, WA",
+  "languages": { "Go": 42000, "TypeScript": 18000, "Shell": 2000 },
+  "top_repos": ["meili-search", "go-utils"]
+}

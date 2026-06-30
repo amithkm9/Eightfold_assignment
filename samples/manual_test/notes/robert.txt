@@ -1,0 +1,7 @@
+Name: Robert Lang
+Strong backend candidate. Username: rlang99 (his GitHub handle, not his real name).
+Internal Employee ID 12345 — ignore.
+
+Reach him at robert.lang@example.com.
+
+Skills: Java, Spring, Kafka

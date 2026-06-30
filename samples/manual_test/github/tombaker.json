@@ -1,0 +1,12 @@
+{
+  "login": "tombaker",
+  "name": "Tom Baker",
+  "html_url": "https://github.com/tombaker",
+  "blog": "https://tombaker.io",
+  "email": null,
+  "bio": "Systems engineer, ex-infra",
+  "company": "@coreservices",
+  "location": "Bengaluru, India",
+  "languages": { "Go": 60000, "Rust": 9000 },
+  "top_repos": ["core-infra", "rustlets"]
+}

@@ -1,0 +1,7 @@
+Candidate: Carlos Rivera
+Spoke with Carlos — strong platform background, very pragmatic about reliability.
+
+Reach him at carlos.rivera@example.com or 619.555.0199.
+Portfolio: https://carlosrivera.dev
+
+About 9 years of experience. Skills: Python, Docker, AWS, distributed systems

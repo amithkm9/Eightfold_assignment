@@ -1,0 +1,4 @@
+Name: John Smith
+Backend-leaning generalist.
+
+Skills: Python, Go

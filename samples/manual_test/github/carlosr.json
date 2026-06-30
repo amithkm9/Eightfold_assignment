@@ -1,0 +1,12 @@
+{
+  "login": "carlosr",
+  "name": "Carlos A. Rivera",
+  "html_url": "https://github.com/carlosr",
+  "blog": "https://carlosrivera.dev",
+  "email": null,
+  "bio": "Backend & platform engineer",
+  "company": "@nimbuslabs",
+  "location": "San Diego, CA",
+  "languages": { "Go": 50000, "Python": 12000, "Shell": 3000 },
+  "top_repos": ["nimbus-core", "k8s-tools"]
+}

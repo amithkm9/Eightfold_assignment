@@ -1,0 +1,7 @@
+Name: Fatima Noor
+Sharp ML engineer with solid backend chops.
+
+Portfolio: https://fatima.codes/blog
+LinkedIn: https://www.linkedin.com/in/fatimanoor
+
+Skills: Python, Rust, machine learning

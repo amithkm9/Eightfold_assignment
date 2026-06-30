@@ -1,0 +1,6 @@
+Candidate: Tom Baker
+Spoke with Tom — deep infrastructure background, calm under pressure.
+
+Reach him at tom.baker@example.com or +1 408 555 0177.
+
+About 11 years of experience. Skills: Python, Go, Rust, observability
