@@ -98,7 +98,7 @@ export ANTHROPIC_API_KEY=sk-...
 eightfold run --inputs samples/inputs --llm --out out_llm.json
 ```
 
-`claude-opus-4-8` (structured JSON output, **cached by input-hash** for reproducibility) only
+`claude-haiku-4-5` (structured JSON output, **cached by input-hash** for reproducibility) only
 *proposes* low-confidence skill/headline claims that can **never overwrite** a structured value.
 Without a key it's a no-op — the run is byte-identical to the deterministic path.
 
@@ -129,7 +129,7 @@ mypy src               # types (clean)
 - **Deterministic entity resolution** — union-find over strong keys + a *guarded* fuzzy pass,
   with **blocking** so it stays near-linear (**~10k records in <0.4s** on a laptop).
 - **Byte-for-byte determinism** — same inputs → identical output, verified by gold-file tests.
-- **Optional, fenced LLM enrichment** — `claude-opus-4-8` can *propose* low-confidence claims
+- **Optional, fenced LLM enrichment** — `claude-haiku-4-5` can *propose* low-confidence claims
   from free prose; off by default, cached for reproducibility, and unable to overwrite real data.
 - **CLI + zero-dependency web UI** — scriptable batch tool plus a stdlib `http.server` viewer.
 - **43 tests**, `ruff` + `mypy` clean, ships `py.typed`.
@@ -155,7 +155,7 @@ flowchart TB
         direction TB
         DETECT["detect<br/><small>format sniffing</small>"]
         EXTRACT["extract<br/><small>each value → Claim<br/>(source, method, raw_span, confidence)</small>"]
-        LLM(["(optional) LLM enrich<br/><small>claude-opus-4-8 · off by default<br/>low-trust claims only</small>"])
+        LLM(["(optional) LLM enrich<br/><small>claude-haiku-4-5 · off by default<br/>low-trust claims only</small>"])
         NORM["normalize<br/><small>E.164 · ISO-3166 · YYYY-MM · skills<br/>abstain → null on failure</small>"]
         RESOLVE["resolve / entity-match<br/><small>union-find + blocking<br/>+ guarded fuzzy pass</small>"]
         FUSE["fuse / survivorship<br/><small>per-field-class rules<br/>+ explainable confidence</small>"]
@@ -270,7 +270,8 @@ The four sample sources describe **Jane Doe** with deliberate conflicts. The pip
 | **Overall approach** | Deterministic pipeline | LLM/agent does the whole transform | The steps are *known and fixed* (detect → extract → match → fuse). There's no open-ended decision space for an agent to plan. A deterministic pipeline is reproducible, explainable, and free of hallucination — the three things that matter most in hiring. |
 | **Is an agent used?** | **No** | An agentic loop with tools | Agents earn their keep when the path is unknown and must be planned. Record linkage is the opposite: an auditable, fixed sequence. An agent would add non-determinism, cost, latency, and zero correctness guarantee. |
 | **Is an LLM used?** | **Yes — optional & fenced** | LLM in the critical path | The one place deterministic parsing genuinely can't reach is *free prose*. So the LLM is confined there, **off by default**, **cached** (reproducible), forced through a **JSON schema**, and emitted as **low-trust claims that can never overwrite** structured data. Upside of flexibility, none of the risk. |
-| **Determinism guarantee** | Input-hash **caching** | `temperature=0` | `claude-opus-4-8` takes no temperature parameter, so caching — not temperature — is what guarantees identical output on identical input. |
+| **Determinism guarantee** | Input-hash **caching** | `temperature=0` | `claude-haiku-4-5` takes no temperature parameter, so caching — not temperature — is what guarantees identical output on identical input. |
+| **LLM model choice** | `claude-haiku-4-5` (cheapest tier) | Opus / Sonnet | The LLM only does bounded, schema-constrained extraction from short prose — no reasoning headroom needed. Haiku is ~5× cheaper than Opus and faster, with the same structured-output + caching guarantees. |
 | **Normalization** | Battle-tested libraries (`phonenumbers`, `pycountry`, `dateutil`) | Ask the model / hand-roll regex | For anything with a *correct answer*, use a deterministic tool that can be tested to a gold standard. An LLM would produce plausible-but-wrong phone numbers; these libraries validate and abstain. |
 | **Missing / invalid values** | Abstain to `null` | Best-effort guess | A hallucinated employer or skill is actively harmful (pollutes search, misleads recruiters, hard to detect). An empty field is honest and recoverable. |
 | **Output shaping** | CQRS — build once, **project via config** | Bake output format into the merge logic | "Clean profile" isn't one fixed shape (search index vs recruiter UI vs export). Computing truth once and reshaping cheaply means a new consumer is a new *config*, not new *code*. |

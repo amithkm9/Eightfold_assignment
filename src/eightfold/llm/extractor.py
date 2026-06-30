@@ -6,7 +6,7 @@ So the LLM is fenced in:
 
   * OFF by default — only runs with `--llm` AND an ANTHROPIC_API_KEY present.
   * Reproducible — every call is cached by a hash of (model, schema, text). Re-runs
-    read the cache, so the pipeline stays deterministic. (Opus 4.8 doesn't accept a
+    read the cache, so the pipeline stays deterministic. (These models don't accept a
     temperature parameter, so caching — not temperature=0 — is what guarantees this.)
   * Constrained — structured JSON-schema output; the model is told to ABSTAIN
     (return nothing) rather than guess.
@@ -27,7 +27,7 @@ from pathlib import Path
 
 from ..models import Claim, Method, SourceKind
 
-MODEL = "claude-opus-4-8"
+MODEL = "claude-haiku-4-5"  # cheapest tier — ample for bounded, schema-constrained extraction
 CACHE_VERSION = "1"        # bump to invalidate all cached extractions
 _MAX_RETRIES = 3
 _CONF_SKILL = 0.5          # LLM-proposed skill: low trust, can't overwrite structured
@@ -98,7 +98,9 @@ def _call_model(text: str) -> dict | None:
                 model=MODEL,
                 max_tokens=1024,
                 system=_SYSTEM,
-                output_config={"effort": "low", "format": {"type": "json_schema", "schema": _SCHEMA}},
+                # Haiku 4.5 doesn't accept the `effort` parameter (400) — schema-constrained
+                # output alone is enough for this bounded extraction.
+                output_config={"format": {"type": "json_schema", "schema": _SCHEMA}},
                 messages=[{"role": "user", "content": text}],
             )
             out = next((b.text for b in resp.content if b.type == "text"), None)
