@@ -1,0 +1,7 @@
+{
+  "_comment": "Default output config. fields=null => emit the full canonical schema. Provenance and confidence are on; missing values become null.",
+  "fields": null,
+  "include_provenance": true,
+  "include_confidence": true,
+  "on_missing": "null"
+}
