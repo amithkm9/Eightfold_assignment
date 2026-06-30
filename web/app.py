@@ -9,6 +9,7 @@ Run:  python web/app.py   then open http://127.0.0.1:8000
 
 from __future__ import annotations
 
+import html
 import json
 import sys
 from http.server import BaseHTTPRequestHandler, HTTPServer
@@ -58,7 +59,12 @@ PAGE = """<!doctype html><html><head><meta charset="utf-8"><title>Eightfold Prof
 
 
 def render(inputs=DEFAULT_INPUTS, config=DEFAULT_CONFIG, result="(run to see output)", cls=""):
-    return PAGE.format(inputs=inputs, config=config, result=result, cls=cls)
+    # Escape everything user/data-controlled before it lands in HTML: a candidate
+    # value containing <, &, " or </pre> must render verbatim, never break the page
+    # or get silently swallowed (that would contradict the engine's honesty contract).
+    return PAGE.format(inputs=html.escape(inputs, quote=True),
+                       config=html.escape(config),
+                       result=html.escape(result), cls=cls)
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -81,7 +87,15 @@ class Handler(BaseHTTPRequestHandler):
             cfg_dict = json.loads(config_raw)
             cfg_dict.pop("_comment", None)
             config = OutputConfig.model_validate(cfg_dict)
-            result = run(_expand_inputs([inputs_raw]), config, use_llm=use_llm)
+            files = _expand_inputs([inputs_raw])
+            if not files:
+                # A bad path otherwise yields an empty-but-"successful" result, which
+                # reads as "found nobody" rather than "wrong path". Say so plainly.
+                self._send(render(inputs_raw, config_raw,
+                                  f"no usable input files (.csv/.json/.txt) found at: {inputs_raw}",
+                                  cls="err"))
+                return
+            result = run(files, config, use_llm=use_llm)
             self._send(render(inputs_raw, config_raw,
                               json.dumps(result, indent=2, ensure_ascii=False)))
         except Exception as exc:  # noqa: BLE001
