@@ -1,0 +1,210 @@
+{
+  "candidate_id": "jane-doe",
+  "full_name": "Jane Doe",
+  "emails": [
+    "jane.doe@example.com",
+    "jdoe@acme.com"
+  ],
+  "phones": [
+    "+14155550100"
+  ],
+  "location": {
+    "city": "San Francisco",
+    "region": "CA",
+    "country": "US"
+  },
+  "links": {
+    "linkedin": "https://www.linkedin.com/in/janedoe",
+    "github": "https://github.com/janedoe",
+    "portfolio": "https://janedoe.dev",
+    "other": []
+  },
+  "headline": "Sr. Software Engineer",
+  "years_experience": 8.0,
+  "skills": [
+    {
+      "name": "AWS",
+      "confidence": 0.2571,
+      "sources": [
+        "recruiter_notes"
+      ]
+    },
+    {
+      "name": "Distributed Systems",
+      "confidence": 0.2571,
+      "sources": [
+        "recruiter_notes"
+      ]
+    },
+    {
+      "name": "Docker",
+      "confidence": 0.7372,
+      "sources": [
+        "github"
+      ]
+    },
+    {
+      "name": "Go",
+      "confidence": 0.7408,
+      "sources": [
+        "ats_json",
+        "github"
+      ]
+    },
+    {
+      "name": "Kubernetes",
+      "confidence": 0.7408,
+      "sources": [
+        "ats_json",
+        "recruiter_notes"
+      ]
+    },
+    {
+      "name": "Leadership",
+      "confidence": 0.2571,
+      "sources": [
+        "recruiter_notes"
+      ]
+    },
+    {
+      "name": "PostgreSQL",
+      "confidence": 0.7008,
+      "sources": [
+        "ats_json"
+      ]
+    },
+    {
+      "name": "Python",
+      "confidence": 0.7808,
+      "sources": [
+        "ats_json",
+        "github",
+        "recruiter_notes"
+      ]
+    },
+    {
+      "name": "Shell",
+      "confidence": 0.7372,
+      "sources": [
+        "github"
+      ]
+    }
+  ],
+  "experience": [
+    {
+      "company": "Acme Corp",
+      "title": "Senior Software Engineer",
+      "start": "2021-03",
+      "end": null,
+      "summary": "Lead backend for payments platform."
+    },
+    {
+      "company": "Initech",
+      "title": "Software Engineer",
+      "start": "2017-06",
+      "end": "2021-02",
+      "summary": null
+    }
+  ],
+  "education": [
+    {
+      "institution": "UC Berkeley",
+      "degree": "B.S.",
+      "field": "Computer Science",
+      "end_year": 2016
+    }
+  ],
+  "provenance": [
+    {
+      "field": "full_name",
+      "source": "recruiter_csv",
+      "method": "csv_direct"
+    },
+    {
+      "field": "emails",
+      "source": "recruiter_csv",
+      "method": "csv_direct"
+    },
+    {
+      "field": "emails",
+      "source": "ats_json",
+      "method": "json_remap"
+    },
+    {
+      "field": "emails",
+      "source": "recruiter_notes",
+      "method": "regex"
+    },
+    {
+      "field": "phones",
+      "source": "recruiter_csv",
+      "method": "csv_direct"
+    },
+    {
+      "field": "phones",
+      "source": "ats_json",
+      "method": "json_remap"
+    },
+    {
+      "field": "phones",
+      "source": "recruiter_notes",
+      "method": "regex"
+    },
+    {
+      "field": "location",
+      "source": "ats_json",
+      "method": "json_remap"
+    },
+    {
+      "field": "links",
+      "source": "github",
+      "method": "github_api"
+    },
+    {
+      "field": "links",
+      "source": "recruiter_notes",
+      "method": "regex"
+    },
+    {
+      "field": "headline",
+      "source": "ats_json",
+      "method": "json_remap"
+    },
+    {
+      "field": "years_experience",
+      "source": "recruiter_notes",
+      "method": "regex"
+    },
+    {
+      "field": "skills",
+      "source": "ats_json",
+      "method": "json_remap"
+    },
+    {
+      "field": "skills",
+      "source": "github",
+      "method": "github_api"
+    },
+    {
+      "field": "skills",
+      "source": "recruiter_notes",
+      "method": "regex"
+    },
+    {
+      "field": "experience",
+      "source": "recruiter_csv",
+      "method": "csv_direct"
+    },
+    {
+      "field": "experience",
+      "source": "ats_json",
+      "method": "json_remap"
+    },
+    {
+      "field": "education",
+      "source": "ats_json",
+      "method": "json_remap"
+    }
+  ],
+  "overall_confidence": 0.7167
+}

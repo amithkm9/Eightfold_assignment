@@ -1,0 +1,69 @@
+{
+  "full_name": "Jane Doe",
+  "primary_email": "jane.doe@example.com",
+  "phone": "+14155550100",
+  "skills": [
+    "AWS",
+    "Distributed Systems",
+    "Docker",
+    "Go",
+    "Kubernetes",
+    "Leadership",
+    "PostgreSQL",
+    "Python",
+    "Shell"
+  ],
+  "overall_confidence": 0.7167,
+  "provenance": [
+    {
+      "field": "full_name",
+      "source": "recruiter_csv",
+      "method": "csv_direct"
+    },
+    {
+      "field": "emails",
+      "source": "recruiter_csv",
+      "method": "csv_direct"
+    },
+    {
+      "field": "emails",
+      "source": "ats_json",
+      "method": "json_remap"
+    },
+    {
+      "field": "emails",
+      "source": "recruiter_notes",
+      "method": "regex"
+    },
+    {
+      "field": "phones",
+      "source": "recruiter_csv",
+      "method": "csv_direct"
+    },
+    {
+      "field": "phones",
+      "source": "ats_json",
+      "method": "json_remap"
+    },
+    {
+      "field": "phones",
+      "source": "recruiter_notes",
+      "method": "regex"
+    },
+    {
+      "field": "skills",
+      "source": "ats_json",
+      "method": "json_remap"
+    },
+    {
+      "field": "skills",
+      "source": "github",
+      "method": "github_api"
+    },
+    {
+      "field": "skills",
+      "source": "recruiter_notes",
+      "method": "regex"
+    }
+  ]
+}

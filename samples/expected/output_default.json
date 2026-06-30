@@ -1,0 +1,416 @@
+{
+  "candidates": [
+    {
+      "candidate_id": "broken-row-no-name",
+      "full_name": null,
+      "emails": [
+        "broken-row-no-name@nowhere"
+      ],
+      "phones": [],
+      "location": {
+        "city": null,
+        "region": null,
+        "country": null
+      },
+      "links": {
+        "linkedin": null,
+        "github": null,
+        "portfolio": null,
+        "other": []
+      },
+      "headline": null,
+      "years_experience": null,
+      "skills": [],
+      "experience": [],
+      "education": [],
+      "provenance": [
+        {
+          "field": "emails",
+          "source": "recruiter_csv",
+          "method": "csv_direct"
+        }
+      ],
+      "overall_confidence": 0.828
+    },
+    {
+      "candidate_id": "jane-doe",
+      "full_name": "Jane Doe",
+      "emails": [
+        "jane.doe@example.com",
+        "jdoe@acme.com"
+      ],
+      "phones": [
+        "+14155550100"
+      ],
+      "location": {
+        "city": "San Francisco",
+        "region": "CA",
+        "country": "US"
+      },
+      "links": {
+        "linkedin": "https://www.linkedin.com/in/janedoe",
+        "github": "https://github.com/janedoe",
+        "portfolio": "https://janedoe.dev",
+        "other": []
+      },
+      "headline": "Sr. Software Engineer",
+      "years_experience": 8.0,
+      "skills": [
+        {
+          "name": "AWS",
+          "confidence": 0.2571,
+          "sources": [
+            "recruiter_notes"
+          ]
+        },
+        {
+          "name": "Distributed Systems",
+          "confidence": 0.2571,
+          "sources": [
+            "recruiter_notes"
+          ]
+        },
+        {
+          "name": "Docker",
+          "confidence": 0.7372,
+          "sources": [
+            "github"
+          ]
+        },
+        {
+          "name": "Go",
+          "confidence": 0.7408,
+          "sources": [
+            "ats_json",
+            "github"
+          ]
+        },
+        {
+          "name": "Kubernetes",
+          "confidence": 0.7408,
+          "sources": [
+            "ats_json",
+            "recruiter_notes"
+          ]
+        },
+        {
+          "name": "Leadership",
+          "confidence": 0.2571,
+          "sources": [
+            "recruiter_notes"
+          ]
+        },
+        {
+          "name": "PostgreSQL",
+          "confidence": 0.7008,
+          "sources": [
+            "ats_json"
+          ]
+        },
+        {
+          "name": "Python",
+          "confidence": 0.7808,
+          "sources": [
+            "ats_json",
+            "github",
+            "recruiter_notes"
+          ]
+        },
+        {
+          "name": "Shell",
+          "confidence": 0.7372,
+          "sources": [
+            "github"
+          ]
+        }
+      ],
+      "experience": [
+        {
+          "company": "Acme Corp",
+          "title": "Senior Software Engineer",
+          "start": "2021-03",
+          "end": null,
+          "summary": "Lead backend for payments platform."
+        },
+        {
+          "company": "Initech",
+          "title": "Software Engineer",
+          "start": "2017-06",
+          "end": "2021-02",
+          "summary": null
+        }
+      ],
+      "education": [
+        {
+          "institution": "UC Berkeley",
+          "degree": "B.S.",
+          "field": "Computer Science",
+          "end_year": 2016
+        }
+      ],
+      "provenance": [
+        {
+          "field": "full_name",
+          "source": "recruiter_csv",
+          "method": "csv_direct"
+        },
+        {
+          "field": "emails",
+          "source": "recruiter_csv",
+          "method": "csv_direct"
+        },
+        {
+          "field": "emails",
+          "source": "ats_json",
+          "method": "json_remap"
+        },
+        {
+          "field": "emails",
+          "source": "recruiter_notes",
+          "method": "regex"
+        },
+        {
+          "field": "phones",
+          "source": "recruiter_csv",
+          "method": "csv_direct"
+        },
+        {
+          "field": "phones",
+          "source": "ats_json",
+          "method": "json_remap"
+        },
+        {
+          "field": "phones",
+          "source": "recruiter_notes",
+          "method": "regex"
+        },
+        {
+          "field": "location",
+          "source": "ats_json",
+          "method": "json_remap"
+        },
+        {
+          "field": "links",
+          "source": "github",
+          "method": "github_api"
+        },
+        {
+          "field": "links",
+          "source": "recruiter_notes",
+          "method": "regex"
+        },
+        {
+          "field": "headline",
+          "source": "ats_json",
+          "method": "json_remap"
+        },
+        {
+          "field": "years_experience",
+          "source": "recruiter_notes",
+          "method": "regex"
+        },
+        {
+          "field": "skills",
+          "source": "ats_json",
+          "method": "json_remap"
+        },
+        {
+          "field": "skills",
+          "source": "github",
+          "method": "github_api"
+        },
+        {
+          "field": "skills",
+          "source": "recruiter_notes",
+          "method": "regex"
+        },
+        {
+          "field": "experience",
+          "source": "recruiter_csv",
+          "method": "csv_direct"
+        },
+        {
+          "field": "experience",
+          "source": "ats_json",
+          "method": "json_remap"
+        },
+        {
+          "field": "education",
+          "source": "ats_json",
+          "method": "json_remap"
+        }
+      ],
+      "overall_confidence": 0.7167
+    },
+    {
+      "candidate_id": "john-smith",
+      "full_name": "John Smith",
+      "emails": [
+        "john.smith@workmail.com"
+      ],
+      "phones": [],
+      "location": {
+        "city": null,
+        "region": null,
+        "country": null
+      },
+      "links": {
+        "linkedin": null,
+        "github": null,
+        "portfolio": null,
+        "other": []
+      },
+      "headline": null,
+      "years_experience": null,
+      "skills": [],
+      "experience": [
+        {
+          "company": "Globex",
+          "title": "Data Scientist",
+          "start": null,
+          "end": null,
+          "summary": null
+        }
+      ],
+      "education": [],
+      "provenance": [
+        {
+          "field": "full_name",
+          "source": "recruiter_csv",
+          "method": "csv_direct"
+        },
+        {
+          "field": "emails",
+          "source": "recruiter_csv",
+          "method": "csv_direct"
+        },
+        {
+          "field": "experience",
+          "source": "recruiter_csv",
+          "method": "csv_direct"
+        }
+      ],
+      "overall_confidence": 0.828
+    },
+    {
+      "candidate_id": "maria-garcia",
+      "full_name": "Maria Garcia",
+      "emails": [
+        "maria.garcia@correo.es"
+      ],
+      "phones": [],
+      "location": {
+        "city": "Madrid",
+        "region": null,
+        "country": "ES"
+      },
+      "links": {
+        "linkedin": null,
+        "github": null,
+        "portfolio": null,
+        "other": []
+      },
+      "headline": null,
+      "years_experience": null,
+      "skills": [
+        {
+          "name": "Java",
+          "confidence": 0.7008,
+          "sources": [
+            "ats_json"
+          ]
+        },
+        {
+          "name": "JavaScript",
+          "confidence": 0.7008,
+          "sources": [
+            "ats_json"
+          ]
+        },
+        {
+          "name": "Spring",
+          "confidence": 0.7008,
+          "sources": [
+            "ats_json"
+          ]
+        }
+      ],
+      "experience": [],
+      "education": [],
+      "provenance": [
+        {
+          "field": "full_name",
+          "source": "ats_json",
+          "method": "json_remap"
+        },
+        {
+          "field": "emails",
+          "source": "ats_json",
+          "method": "json_remap"
+        },
+        {
+          "field": "location",
+          "source": "ats_json",
+          "method": "json_remap"
+        },
+        {
+          "field": "skills",
+          "source": "ats_json",
+          "method": "json_remap"
+        }
+      ],
+      "overall_confidence": 0.7008
+    }
+  ],
+  "errors": [],
+  "report": [
+    {
+      "path": "samples/inputs/ats.json",
+      "source": "ats_json",
+      "status": "ok",
+      "records": 2,
+      "claims": 19,
+      "error": null
+    },
+    {
+      "path": "samples/inputs/github/janedoe.json",
+      "source": "github",
+      "status": "ok",
+      "records": 1,
+      "claims": 9,
+      "error": null
+    },
+    {
+      "path": "samples/inputs/malformed.json",
+      "source": "ats_json",
+      "status": "failed",
+      "records": 0,
+      "claims": 0,
+      "error": "JSONDecodeError: Expecting property name enclosed in double quotes: line 1 column 55 (char 54)\nTraceback (most recent call last):\n  File \"/Users/amithkm/iCloud Drive (Archive)/Desktop/Eighfold/eightfold-profile-transformer/src/eightfold/sources/base.py\", line 50, in extract\n    records = self._extract(p)\n  File \"/Users/amithkm/iCloud Drive (Archive)/Desktop/Eighfold/eightfold-profile-transformer/src/eightfold/sources/ats_json.py\", line 47, in _extract\n    data = json.loads(path.read_text(encoding=\"utf-8\"))\njson.decoder.JSONDecodeError: Expecting property name enclosed in double quotes: line 1 column 55 (char 54)\n"
+    },
+    {
+      "path": "samples/inputs/notes/empty.txt",
+      "source": "recruiter_notes",
+      "status": "empty",
+      "records": 0,
+      "claims": 0,
+      "error": null
+    },
+    {
+      "path": "samples/inputs/notes/jane.txt",
+      "source": "recruiter_notes",
+      "status": "ok",
+      "records": 1,
+      "claims": 10,
+      "error": null
+    },
+    {
+      "path": "samples/inputs/recruiter.csv",
+      "source": "recruiter_csv",
+      "status": "ok",
+      "records": 3,
+      "claims": 9,
+      "error": null
+    }
+  ]
+}

@@ -1,0 +1,176 @@
+{
+  "candidates": [
+    {
+      "full_name": "Jane Doe",
+      "primary_email": "jane.doe@example.com",
+      "phone": "+14155550100",
+      "skills": [
+        "AWS",
+        "Distributed Systems",
+        "Docker",
+        "Go",
+        "Kubernetes",
+        "Leadership",
+        "PostgreSQL",
+        "Python",
+        "Shell"
+      ],
+      "overall_confidence": 0.7167,
+      "provenance": [
+        {
+          "field": "full_name",
+          "source": "recruiter_csv",
+          "method": "csv_direct"
+        },
+        {
+          "field": "emails",
+          "source": "recruiter_csv",
+          "method": "csv_direct"
+        },
+        {
+          "field": "emails",
+          "source": "ats_json",
+          "method": "json_remap"
+        },
+        {
+          "field": "emails",
+          "source": "recruiter_notes",
+          "method": "regex"
+        },
+        {
+          "field": "phones",
+          "source": "recruiter_csv",
+          "method": "csv_direct"
+        },
+        {
+          "field": "phones",
+          "source": "ats_json",
+          "method": "json_remap"
+        },
+        {
+          "field": "phones",
+          "source": "recruiter_notes",
+          "method": "regex"
+        },
+        {
+          "field": "skills",
+          "source": "ats_json",
+          "method": "json_remap"
+        },
+        {
+          "field": "skills",
+          "source": "github",
+          "method": "github_api"
+        },
+        {
+          "field": "skills",
+          "source": "recruiter_notes",
+          "method": "regex"
+        }
+      ]
+    },
+    {
+      "full_name": "John Smith",
+      "primary_email": "john.smith@workmail.com",
+      "phone": null,
+      "skills": null,
+      "overall_confidence": 0.828,
+      "provenance": [
+        {
+          "field": "full_name",
+          "source": "recruiter_csv",
+          "method": "csv_direct"
+        },
+        {
+          "field": "emails",
+          "source": "recruiter_csv",
+          "method": "csv_direct"
+        }
+      ]
+    },
+    {
+      "full_name": "Maria Garcia",
+      "primary_email": "maria.garcia@correo.es",
+      "phone": null,
+      "skills": [
+        "Java",
+        "JavaScript",
+        "Spring"
+      ],
+      "overall_confidence": 0.7008,
+      "provenance": [
+        {
+          "field": "full_name",
+          "source": "ats_json",
+          "method": "json_remap"
+        },
+        {
+          "field": "emails",
+          "source": "ats_json",
+          "method": "json_remap"
+        },
+        {
+          "field": "skills",
+          "source": "ats_json",
+          "method": "json_remap"
+        }
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "candidate_id": "broken-row-no-name",
+      "error": "SchemaValidationError: required field 'full_name' is missing or null"
+    }
+  ],
+  "report": [
+    {
+      "path": "samples/inputs/ats.json",
+      "source": "ats_json",
+      "status": "ok",
+      "records": 2,
+      "claims": 19,
+      "error": null
+    },
+    {
+      "path": "samples/inputs/github/janedoe.json",
+      "source": "github",
+      "status": "ok",
+      "records": 1,
+      "claims": 9,
+      "error": null
+    },
+    {
+      "path": "samples/inputs/malformed.json",
+      "source": "ats_json",
+      "status": "failed",
+      "records": 0,
+      "claims": 0,
+      "error": "JSONDecodeError: Expecting property name enclosed in double quotes: line 1 column 55 (char 54)\nTraceback (most recent call last):\n  File \"/Users/amithkm/iCloud Drive (Archive)/Desktop/Eighfold/eightfold-profile-transformer/src/eightfold/sources/base.py\", line 50, in extract\n    records = self._extract(p)\n  File \"/Users/amithkm/iCloud Drive (Archive)/Desktop/Eighfold/eightfold-profile-transformer/src/eightfold/sources/ats_json.py\", line 47, in _extract\n    data = json.loads(path.read_text(encoding=\"utf-8\"))\njson.decoder.JSONDecodeError: Expecting property name enclosed in double quotes: line 1 column 55 (char 54)\n"
+    },
+    {
+      "path": "samples/inputs/notes/empty.txt",
+      "source": "recruiter_notes",
+      "status": "empty",
+      "records": 0,
+      "claims": 0,
+      "error": null
+    },
+    {
+      "path": "samples/inputs/notes/jane.txt",
+      "source": "recruiter_notes",
+      "status": "ok",
+      "records": 1,
+      "claims": 10,
+      "error": null
+    },
+    {
+      "path": "samples/inputs/recruiter.csv",
+      "source": "recruiter_csv",
+      "status": "ok",
+      "records": 3,
+      "claims": 9,
+      "error": null
+    }
+  ]
+}
