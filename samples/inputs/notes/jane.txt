@@ -1,0 +1,11 @@
+Candidate: Jane Doe
+Spoke with Jane on Tuesday. Strong backend profile, very thoughtful about reliability.
+
+Reach her at jane.doe@example.com or 415.555.0100.
+LinkedIn: https://www.linkedin.com/in/janedoe
+Portfolio / writeups: https://janedoe.dev/blog
+
+She has about 8 years of experience, last few leading a small team.
+Skills: Python, Kubernetes, AWS, distributed systems, leadership
+
+Notes: open to relocation, prefers backend/platform roles.

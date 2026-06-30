@@ -1,0 +1,30 @@
+{
+  "candidates": [
+    {
+      "applicant_id": "A-1001",
+      "personal": { "first": "Jane", "last": "Doe" },
+      "contact": {
+        "emails": ["jane.doe@example.com", "jdoe@acme.com"],
+        "phoneNumbers": ["(415) 555-0100"]
+      },
+      "loc": { "town": "San Francisco", "state": "CA", "nation": "United States" },
+      "current_title": "Sr. Software Engineer",
+      "tech_stack": ["Python", "Golang", "k8s", "PostgreSQL"],
+      "work_history": [
+        { "org": "Acme Corp", "role": "Senior Software Engineer", "from": "March 2021", "to": null,
+          "summary": "Lead backend for payments platform." },
+        { "org": "Initech", "role": "Software Engineer", "from": "2017-06", "to": "2021-02" }
+      ],
+      "schools": [
+        { "school": "UC Berkeley", "degree": "B.S.", "field": "Computer Science", "grad_year": 2016 }
+      ]
+    },
+    {
+      "applicant_id": "A-1002",
+      "full_name": "Maria Garcia",
+      "contact": { "email": "maria.garcia@correo.es" },
+      "loc": { "town": "Madrid", "nation": "Spain" },
+      "tech_stack": ["Java", "Spring", "javascript"]
+    }
+  ]
+}

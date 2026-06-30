@@ -1,0 +1,12 @@
+{
+  "login": "janedoe",
+  "name": "Jane Q. Doe",
+  "bio": "Backend engineer into distributed systems and payments.",
+  "blog": "https://janedoe.dev",
+  "company": "@acme",
+  "location": "San Francisco, USA",
+  "email": null,
+  "html_url": "https://github.com/janedoe",
+  "languages": { "Python": 52000, "Go": 21000, "Shell": 4000, "Dockerfile": 1200 },
+  "top_repos": ["payments-core", "rate-limiter", "dotfiles"]
+}

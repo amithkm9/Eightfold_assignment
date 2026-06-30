@@ -1,0 +1,4 @@
+name,email,phone,current_company,title
+Jane Doe,jane.doe@example.com,+1 (415) 555-0100,Acme Corp,Senior Software Engineer
+John Smith,john.smith@workmail.com,07911 123456,Globex,Data Scientist
+,broken-row-no-name@nowhere,,,
