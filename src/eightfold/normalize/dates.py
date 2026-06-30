@@ -15,9 +15,14 @@ from dateutil import parser as dtparser
 YYYY_MM = re.compile(r"^\d{4}-\d{2}$")  # public: the canonical YYYY-MM shape
 _YYYY = re.compile(r"^\d{4}$")
 _PRESENT = {"present", "current", "now", "to date", "ongoing"}
-# An explicit month token: a month name/abbrev, or a numeric MM next to the year.
+# An explicit month token: a word-bounded month name/abbrev, or a numeric MM next to the
+# year. Word boundaries stop substrings ("Maryland", "Mayfield") from looking like months,
+# and the negative lookahead stops a year range ("2018-2020") from looking like YYYY-MM.
 _MONTH_TOKEN = re.compile(
-    r"jan|feb|mar|apr|may|jun|jul|aug|sep|oct|nov|dec|\d{1,2}[/\-.]\d{2,4}|\d{4}[/\-.]\d{1,2}",
+    r"\b(?:jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?"
+    r"|aug(?:ust)?|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\b"
+    r"|\b\d{1,2}[/\-.]\d{2,4}\b"
+    r"|\b\d{4}[/\-.]\d{1,2}(?!\d)",
     re.IGNORECASE,
 )
 
@@ -29,7 +34,9 @@ def to_year_month(value: Any) -> tuple[str | None, bool]:
     if s.lower() in _PRESENT:
         return None, True  # open-ended end date -> null
     if YYYY_MM.match(s):
-        return s, True
+        if 1 <= int(s[5:7]) <= 12:
+            return s, True
+        return s[:4], True  # invalid month (e.g. "2019-13") -> keep year, never fabricate
     if _YYYY.match(s):
         return s, True  # year-only: keep year, do NOT fabricate a month
     try:

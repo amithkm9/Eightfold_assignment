@@ -22,7 +22,12 @@ _GITHUB = re.compile(r"https?://(?:www\.)?github\.com/[^\s,)]+", re.I)
 _URL = re.compile(r"https?://[^\s,)]+", re.I)
 _YEARS = re.compile(r"(\d{1,2})\+?\s*(?:years|yrs)\b", re.I)
 _SKILLS_LINE = re.compile(r"(?:skills|tech(?:nologies)?|stack)\s*[:\-]\s*(.+)", re.I)
-_NAME_LABEL = re.compile(r"(?:candidate|name)\s*[:\-]\s*([A-Z][A-Za-z.'\-]+(?:\s+[A-Z][A-Za-z.'\-]+){0,3})")
+# Keyword is case-insensitive and word-bounded (so "Name:"/"Candidate:" match but
+# "Username:"/"nickname:" don't); the captured name stays capitalized to avoid grabbing
+# stray lowercase prose.
+_NAME_LABEL = re.compile(
+    r"\b(?i:candidate|name)\s*[:\-]\s*([A-Z][A-Za-z.'\-]+(?:[ \t]+[A-Z][A-Za-z.'\-]+){0,3})"
+)
 
 _CONF_CONTACT = 0.7   # regex contact match in prose: precise pattern, looser context
 _CONF_SOFT = 0.55     # skills / years stated in free text

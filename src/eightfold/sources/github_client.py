@@ -30,6 +30,15 @@ _CONF_AUTHORITATIVE = 0.95  # github link & languages: github is the source of t
 _CONF_BIO = 0.6             # bios are loose prose -> low trust for headline
 _CONF_LOCATION = 0.6        # free-text location string, lightly inferred
 
+# US state abbreviations collide with ISO-3166 alpha-2 country codes (e.g. CA=Canada,
+# GA=Gabon), so a bare 2-letter trailing token in a free-text location is ambiguous.
+_US_STATES = {
+    "AL", "AK", "AZ", "AR", "CA", "CO", "CT", "DE", "FL", "GA", "HI", "ID", "IL", "IN",
+    "IA", "KS", "KY", "LA", "ME", "MD", "MA", "MI", "MN", "MS", "MO", "MT", "NE", "NV",
+    "NH", "NJ", "NM", "NY", "NC", "ND", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN",
+    "TX", "UT", "VT", "VA", "WA", "WV", "WI", "WY", "DC",
+}
+
 
 class GitHubClient(ABC):
     @abstractmethod
@@ -132,10 +141,23 @@ class GitHubSource(Source):
         if p.get("bio"):
             add("headline", p["bio"], _CONF_BIO)
         if p.get("location"):
-            # GitHub location is a free string e.g. "Bengaluru, India".
+            # GitHub location is a free string e.g. "Bengaluru, India" or "San Francisco, CA".
             parts = [x.strip() for x in str(p["location"]).split(",") if x.strip()]
-            loc = {"city": parts[0] if parts else None, "region": None,
-                   "country": parts[-1] if len(parts) > 1 else None}
+            city = parts[0] if parts else None
+            region: str | None = None
+            country: str | None = None
+            if len(parts) >= 3:
+                region, country = parts[1], parts[-1]
+            elif len(parts) == 2:
+                tail = parts[1]
+                # A bare 2-letter US state (e.g. "CA", "OR") is ambiguous against a country
+                # code, so keep it as a region and abstain on country rather than emit a
+                # confident-but-wrong country (honest-null).
+                if tail.upper() in _US_STATES:
+                    region = tail
+                else:
+                    country = tail
+            loc = {"city": city, "region": region, "country": country}
             add("location", loc, _CONF_LOCATION, span=p["location"])
         # Languages -> skills (github is authoritative for what languages they use).
         for lang in (p.get("languages") or {}):

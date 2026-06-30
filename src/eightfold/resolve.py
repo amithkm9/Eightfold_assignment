@@ -36,10 +36,15 @@ _MAX_BUCKET = 200  # skip fuzzy comparison inside buckets larger than this (e.g.
 
 
 def identity_keys(rec: SourceRecord) -> set[str]:
-    """Strong + composite keys derived from a record's normalized claims."""
+    """*Strong* identity keys derived from a record's normalized claims.
+
+    Only unambiguous identifiers (email, E.164 phone, github/linkedin URL) become
+    hard-union keys. Name+company is deliberately NOT a key: two different people who
+    share a common name and employer (e.g. two "Michael Chen" at Amazon) must never be
+    force-merged. That case is left to the guarded fuzzy pass, which can reject it on a
+    conflicting strong identifier.
+    """
     keys: set[str] = set()
-    name = None
-    companies: list[str] = []
     for c in rec.claims:
         if c.value in (None, ""):
             continue
@@ -51,15 +56,6 @@ def identity_keys(rec: SourceRecord) -> set[str]:
             keys.add(f"gh:{norm_url(c.value)}")
         elif c.field == "links.linkedin":
             keys.add(f"li:{norm_url(c.value)}")
-        elif c.field == "full_name":
-            name = name_key(c.value)
-        elif c.field == "experience" and isinstance(c.value, dict) and c.value.get("company"):
-            companies.append(name_key(c.value["company"]))
-    # Composite only when BOTH name and company are known (a shared common name alone
-    # must never force a hard union).
-    if name and companies:
-        for comp in companies:
-            keys.add(f"nc:{name}|{comp}")
     return keys
 
 

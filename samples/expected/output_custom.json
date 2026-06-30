@@ -15,7 +15,7 @@
         "Python",
         "Shell"
       ],
-      "overall_confidence": 0.7167,
+      "overall_confidence": 0.7208,
       "provenance": [
         {
           "field": "full_name",
@@ -161,7 +161,7 @@
       "source": "recruiter_notes",
       "status": "ok",
       "records": 1,
-      "claims": 10,
+      "claims": 11,
       "error": null
     },
     {
