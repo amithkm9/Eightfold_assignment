@@ -1,10 +1,9 @@
 """Entity resolution: group SourceRecords that describe the same person.
 
 Deterministic, layered match keys (no randomness, no ML at runtime):
-  - strong identity keys: email, E.164 phone, github/linkedin URL  -> certain match
-  - composite key: normalized(name) + normalized(company)          -> supporting match
-    (only emitted when BOTH name and company are present, so name-only records never
-    hard-merge on a shared common name)
+  - strong identity keys: email, E.164 phone, github/linkedin URL  -> certain match.
+    Name+company is deliberately NOT a strong key — two different people who share a
+    common name and employer must never be force-merged.
   - guarded fuzzy pass: when no strong key is shared (e.g. a GitHub profile with a
     display name "Jane Q. Doe" and no email), merge two clusters ONLY when they share
     a block (last-name token OR personal portfolio host), their names are compatible,
@@ -15,6 +14,12 @@ Scale: the fuzzy pass uses BLOCKING — clusters are bucketed by last-name token
 portfolio host and only compared within a bucket (skipping pathologically large
 buckets), so it is near-linear in practice rather than O(n^2) all-pairs. Merges are
 applied via union-find, so the result is independent of comparison order.
+
+Known limitation: the conflicting-identifier guard is evaluated PAIRWISE on the two
+clusters being compared, not against the whole accumulated union-find component, so a
+transitive chain A-B-C could in principle merge where A and C carry conflicting strong
+ids. Bounded by blocking and rare on real data; component-level conflict checking is
+future work.
 """
 
 from __future__ import annotations

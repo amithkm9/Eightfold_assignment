@@ -29,6 +29,11 @@ _ONTOLOGY = {
 
 _LOOKUP = {alias: canon for canon, aliases in _ONTOLOGY.items() for alias in aliases}
 
+# Lower-case forms of common all-caps acronyms, so "aws"/"sql" come back uppercased
+# without forcing every short word (e.g. "vue", "git") to all-caps.
+_ACRONYMS = {"aws", "gcp", "sql", "php", "css", "html", "api", "ml", "ai", "ci",
+             "cd", "qa", "etl", "nlp", "sdk", "cli", "ui", "ux", "ios", "tcp", "http"}
+
 
 def to_canonical(value: Any) -> tuple[str | None, bool]:
     if value in (None, ""):
@@ -36,10 +41,12 @@ def to_canonical(value: Any) -> tuple[str | None, bool]:
     key = str(value).strip().lower()
     if key in _LOOKUP:
         return _LOOKUP[key], True
-    # Fallback: clean, title-case. Keep known acronyms uppercased.
+    # Fallback: clean and lightly normalize case rather than drop the skill.
     cleaned = " ".join(str(value).split()).strip(" .,-")
     if not cleaned:
         return None, True
-    if cleaned.isupper() or len(cleaned) <= 3:
+    if cleaned.isupper():                  # already an acronym in the input (AWS, SQL)
+        return cleaned, True
+    if cleaned.lower() in _ACRONYMS:       # known acronym typed in lower/mixed case
         return cleaned.upper(), True
     return cleaned[:1].upper() + cleaned[1:], True

@@ -87,7 +87,6 @@ class SourceRecord(BaseModel):
 
     source: str
     record_id: str
-    parse_status: str = ParseStatus.OK.value
     claims: list[Claim] = Field(default_factory=list)
 
 

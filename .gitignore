@@ -9,3 +9,5 @@ __pycache__/
 src/eightfold/llm/cache/*.json
 build/
 dist/
+# generated pipeline outputs (the quickstart writes these next to the gold copies in samples/expected/)
+out_*.json

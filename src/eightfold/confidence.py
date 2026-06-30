@@ -77,7 +77,13 @@ def score_field(winner, agreeing_sources: int, conflicted: bool) -> float:
 
 def score_overall(field_confidences: dict[str, float]) -> float:
     """Mean of the resolved per-field confidences (each already incorporates source
-    trust via score_field). Empty profile -> 0."""
+    trust via score_field). Empty profile -> 0.
+
+    NOTE: this is a plain unweighted mean — it treats every field as equally important
+    and is not monotonic in coverage (adding a real but low-confidence field can lower
+    the overall number). A production version would importance-weight fields and
+    calibrate the score against labeled outcomes; see README "Scaling to production".
+    """
     if not field_confidences:
         return 0.0
     return _clamp(sum(field_confidences.values()) / len(field_confidences))

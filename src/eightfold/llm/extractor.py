@@ -6,8 +6,9 @@ So the LLM is fenced in:
 
   * OFF by default — only runs with `--llm` AND an ANTHROPIC_API_KEY present.
   * Reproducible — every call is cached by a hash of (model, schema, text). Re-runs
-    read the cache, so the pipeline stays deterministic. (These models don't accept a
-    temperature parameter, so caching — not temperature=0 — is what guarantees this.)
+    read the cache and never re-hit the model, so the pipeline is byte-identical across
+    runs. We don't rely on any sampling parameter for this — the input-hash cache (not a
+    temperature setting) is what guarantees reproducibility.
   * Constrained — structured JSON-schema output; the model is told to ABSTAIN
     (return nothing) rather than guess.
   * Low-trust — every value becomes a `llm_extract` Claim with low confidence, so the

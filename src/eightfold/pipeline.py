@@ -101,8 +101,13 @@ def _llm_enrich(inputs: Sequence[str | Path], records: list) -> list:
     for path in inputs:
         p = Path(str(path))
         if p.suffix.lower() == ".txt" and p.exists():
-            records.extend(enrich_from_text(p.read_text(encoding="utf-8", errors="replace"),
-                                            source_hint=p.stem))
+            claims = enrich_from_text(p.read_text(encoding="utf-8", errors="replace"),
+                                      source_hint=p.stem)
+            # enrich_from_text returns Claims; wrap them in a SourceRecord so the rest of
+            # the pipeline (normalize/resolve/fuse) treats them like any other source.
+            if claims:
+                records.append(SourceRecord(source=claims[0].source,
+                                            record_id=f"llm:{p.stem}", claims=claims))
     return records
 
 

@@ -28,7 +28,7 @@ class MissingFieldError(ValueError):
 # --------------------------------------------------------------------------- #
 # Path expression resolver
 # --------------------------------------------------------------------------- #
-def _tokenize(path: str):
+def _tokenize(path: str) -> list[tuple]:
     toks: list[tuple] = []
     for part in path.split("."):
         m = re.match(r"^([A-Za-z_]\w*)((?:\[\d*\])*)$", part)

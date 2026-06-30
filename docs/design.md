@@ -92,7 +92,7 @@ trivially testable. *Same engine, no code changes.*
 Unstructured prose invites an LLM, but the brief demands *deterministic* + *never-invented*. Resolution:
 rules win on identity/contact; **Claude (`claude-haiku-4-5`, structured JSON output) only proposes
 low-confidence `llm_extract` claims** that can never overwrite a structured value; calls are **cached by
-input-hash** for reproducibility (the model takes no temperature param, so caching — not `temp=0` — is the
+input-hash** for reproducibility (we don't rely on a sampling parameter — the cache, not `temp=0`, is the
 determinism guarantee); the model is instructed to **abstain** rather than guess. Off by default.
 Haiku is the cheapest tier and ample for this bounded extraction — Opus/Sonnet headroom isn't needed.
 

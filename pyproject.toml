@@ -7,6 +7,8 @@ name = "eightfold-profile-transformer"
 version = "0.1.0"
 description = "Turn messy multi-source candidate data into one clean, canonical, provenance-tagged profile with a config-driven projection layer."
 readme = "README.md"
+license = { text = "MIT" }
+authors = [{ name = "Amith KM", email = "officialinternetzero@gmail.com" }]
 requires-python = ">=3.10"
 dependencies = [
     "pydantic>=2.5",
