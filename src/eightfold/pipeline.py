@@ -10,6 +10,7 @@ pure projection+validation at the end (clean write/read separation).
 from __future__ import annotations
 
 import hashlib
+import json
 from collections import defaultdict
 from collections.abc import Sequence
 from dataclasses import asdict, dataclass
@@ -75,11 +76,19 @@ def _ensure_unique_ids(profiles: list[CanonicalProfile]) -> None:
     counts: dict[str, int] = defaultdict(int)
     for p in profiles:
         counts[p.candidate_id] += 1
-    for i, p in enumerate(profiles):
+    for p in profiles:
         if counts[p.candidate_id] > 1:
             ident = "|".join(sorted(p.emails) + sorted(p.phones)
                              + [v for v in (p.links.github, p.links.linkedin) if v])
-            suffix = hashlib.sha1(ident.encode()).hexdigest()[:6] if ident else f"{i:04d}"
+            if not ident:
+                # No strong identifier: fall back to a STABLE content fingerprint rather
+                # than the positional index (which depends on input ordering and would
+                # make the output non-deterministic across input permutations).
+                ident = json.dumps(
+                    {"name": p.full_name, "location": p.location.model_dump(),
+                     "skills": sorted(s.name for s in p.skills), "headline": p.headline},
+                    sort_keys=True, ensure_ascii=False)
+            suffix = hashlib.sha1(ident.encode()).hexdigest()[:6]
             p.candidate_id = f"{p.candidate_id}-{suffix}"
 
 

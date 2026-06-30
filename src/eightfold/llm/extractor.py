@@ -125,7 +125,8 @@ def enrich_from_text(text: str, source_hint: str = "notes") -> list[Claim]:
 
     claims: list[Claim] = []
     src = SourceKind.RESUME.value if source_hint == "resume" else SourceKind.RECRUITER_NOTES.value
-    for sk in data.get("skills", []):
+    raw_skills = data.get("skills")
+    for sk in (raw_skills if isinstance(raw_skills, list) else []):
         if isinstance(sk, str) and sk.strip():
             claims.append(Claim(field="skills", value=sk.strip(), source=src,
                                 method=Method.LLM_EXTRACT.value, raw_span="llm",

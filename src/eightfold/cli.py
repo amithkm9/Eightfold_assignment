@@ -21,13 +21,24 @@ _INPUT_EXTS = {".csv", ".json", ".txt"}
 
 def _expand_inputs(paths: list[str]) -> list[str]:
     files: list[str] = []
+    seen: set[str] = set()
+
+    def _add(f: Path) -> None:
+        # De-dup by resolved path so listing a dir AND a file inside it (or the same file
+        # twice) doesn't feed duplicate records into the pipeline.
+        key = str(f.resolve())
+        if key not in seen:
+            seen.add(key)
+            files.append(str(f))
+
     for raw in paths:
         p = Path(raw)
         if p.is_dir():
-            files.extend(str(f) for f in sorted(p.rglob("*"))
-                         if f.is_file() and f.suffix.lower() in _INPUT_EXTS)
+            for f in sorted(p.rglob("*")):
+                if f.is_file() and f.suffix.lower() in _INPUT_EXTS:
+                    _add(f)
         elif p.exists():
-            files.append(str(p))
+            _add(p)
         else:
             print(f"warning: input not found: {p}", file=sys.stderr)
     return files
